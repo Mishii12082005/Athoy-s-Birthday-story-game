@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Birthday Game 🎉</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #ffe6f2, #ffcce6, #ffb3d9);
+            background-size: 400% 400%;
+            animation: bgAnimation 20s ease infinite;
+            text-align: center;
+            padding: 20px;
+            transition: background 1s;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        .step {
+            padding: 15px;
+            width: 300px;
+            margin: 10px auto;
+            border-radius: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .math {
+            background: #ff4c4c;
+        }
+        
+        .water {
+            background: #4ca3ff;
+            display: none;
+        }
+        
+        .story {
+            background: #ff9800;
+            display: none;
+        }
+        
+        .finalStep {
+            background: #ff66cc;
+            display: none;
+        }
+        
+        #gameBox {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 15px;
+            min-height: 300px;
+        }
+        
+        .message {
+            font-size: 22px;
+            padding: 15px;
+            border-radius: 15px;
+            color: white;
+            animation: pop 0.3s;
+            margin-top: 15px;
+        }
+        
+        @keyframes pop {
+            from {
+                transform: scale(0.5);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        /* Glass and switch */
+        
+        #glassContainer {
+            position: relative;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        
+        #glassBase {
+            width: 60px;
+            height: 100px;
+            border: 2px solid #555;
+            border-radius: 5px;
+            position: relative;
+        }
+        
+        #glass {
+            width: 50px;
+            height: 0;
+            background: #4ca3ff;
+            border-radius: 5px 5px 0 0;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: height 0.5s ease;
+        }
+        
+        #switch {
+            width: 100px;
+            height: 60px;
+            background: red;
+            border-radius: 50%;
+            margin: 20px auto;
+            cursor: pointer;
+            line-height: 60px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .arrowNext {
+            margin-top: 20px;
+            font-size: 20px;
+            cursor: pointer;
+            display: inline-block;
+            padding: 10px 15px;
+            background: #ff80bf;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        /* Story Boxes */
+        
+        .storyContainer {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .storyBox {
+            width: 150px;
+            height: 100px;
+            background: #f39c12;
+            margin: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .storyBox:hover {
+            transform: scale(1.1);
+        }
+        /* Final birthday cake */
+        
+        #finalStepBox {
+            margin-top: 20px;
+        }
+        
+        .cake-container {
+            position: relative;
+            width: 200px;
+            margin: 30px auto;
+        }
+        
+        .cake {
+            width: 200px;
+            height: 120px;
+            background: #ff99cc;
+            border-radius: 50% 50% 15% 15%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cake-layer {
+            width: 180px;
+            height: 40px;
+            background: #ffb3d9;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+        }
+        
+        .candle {
+            width: 15px;
+            height: 40px;
+            background: yellow;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+        
+        .flame {
+            width: 15px;
+            height: 15px;
+            background: orange;
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            animation: flicker 0.3s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0% {
+                transform: translateX(-50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(-50%) scale(1.2);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateX(-50%) scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .birthday-msg {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff3399;
+            margin-top: 20px;
+            animation: pop 0.5s;
+        }
+        
+        .birthday-submsg {
+            font-size: 20px;
+            color: #ff66cc;
+            margin-top: 10px;
+        }
+        
+        @keyframes bgAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🎉 Birthday Game 🎉</h1>
+
+    <div class="step math" id="stepMath" onclick="startMath()">📐 Maths Fear Mode</div>
+    <div class="step water" id="stepWater" onclick="startWater()">💧 Water Level</div>
+    <div class="step story" id="stepStory" onclick="startStory()">📖 Story Box</div>
+    <div class="step finalStep" id="stepFinal" onclick="startFinalStep()">🎂 Surprise Birthday Step</div>
+
+    <div id="gameBox"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+    <script>
+        let score = 0;
+
+        /* ===== Step 1: Maths ===== */
+        let currentQ = 0,
+            correct = 0;
+        const questions = [{
+            q: "5 + 2 = ?",
+            ans: "7",
+            msg: "Athoy!! Where’s your calculator? 😆"
+        }, {
+            q: "5 × 5 = ?",
+            ans: "25",
+            msg: "Math is crying in the corner right now 😭"
+        }, {
+            q: "4 ÷ 2 = ?",
+            ans: "2",
+            msg: "Math is fucked by you 💀"
+        }];
+
+        function startMath() {
+            currentQ = 0;
+            correct = 0;
+            document.getElementById("gameBox").style.display = "block";
+            document.getElementById("stepMath").style.display = "none";
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const box = document.getElementById("gameBox");
+            if (currentQ < questions.length) {
+                box.innerHTML = `<h3>${questions[currentQ].q}</h3>
+        <input id="answer" placeholder="Type answer" autofocus>
+        <br><button onclick="checkAnswer()">Submit</button>`;
+            } else {
+                finishMath();
+            }
+        }
+
+        function checkAnswer() {
+            const userAns = document.getElementById("answer").value;
+            const box = document.getElementById("gameBox");
+            const msg = document.createElement('div');
+            msg.className = 'message';
+            if (userAns == questions[currentQ].ans) {
+                correct++;
+                msg.style.background = "#28a745";
+            } else {
+                msg.style.background = "#dc3545";
+            }
+            msg.innerHTML = questions[currentQ].msg;
+            box.innerHTML = '';
+            box.appendChild(msg);
+            currentQ++;
+            setTimeout(loadQuestion, 1500);
+        }
+
+        function finishMath() {
+            const box = document.getElementById("gameBox");
+            box.innerHTML = `<h2>🎉 You got ${correct}/3 correct!</h2>
+        <p>Score: ${score}</p>
+        <div class="arrowNext" onclick="showWaterStep()">➡ Click Here for Next Step</div>`;
+        }
+
+        /* ===== Water Step ===== */
+        function showWaterStep() {
+            document.getElementById("stepWater").style.display = "block";
+            document.getElementById("gameBox").innerHTML = '';
+        }
+
+        function startWater() {
+            document.getElementById("stepWater").style.display = "none";
+            const box = document.getElementById("gameBox");
+            box.innerHTML = `<h2>💧 Drink Water Challenge</h2>
+        <p>Click the switch to pour water into the glass!</p>
+        <div id="glassContainer">
+            <div id="glassBase"></div>
+            <div id="glass"></div>
+        </div>
+        <div id="switch">Click Here</div>
+        <div id="waterMsg"></div>
+    `;
+            let glass = document.getElementById("glass");
+            let filled = 0;
+            const maxHeight = 100;
+            document.getElementById("switch").onclick = function() {
+                if (filled < maxHeight) {
+                    filled += 20;
+                    if (filled > maxHeight) filled = maxHeight;
+                    glass.style.height = filled + 'px';
+                }
+                if (filled >= maxHeight) {
+                    showWaterMsg();
+                }
+            }
+        }
+
+        function showWaterMsg() {
+            const msgBox = document.getElementById("waterMsg");
+            msgBox.innerHTML = `<div class="message" style="background:#ff4500">Haramjada pani khai na… shob pani khabi tui ekhon!! 😆💦</div>`;
+            score += 10;
+            setTimeout(() => {
+                msgBox.innerHTML = '';
+                startBalloons();
+            }, 3000);
+        }
+
+        /* ===== Balloon Step ===== */
+        function startBalloons() {
+            const box = document.getElementById("gameBox");
+            box.innerHTML = `<h2>🎈 Balloon Pop Challenge</h2>
+        <p>Click the balloons to pop them and get surprise messages!</p>
+        <div id="balloonContainer" style="position: relative; width: 100%; height: 400px; overflow: hidden;"></div>
+        <div id="balloonMsg"></div>`;
+            const messages = [
+                "You got 1kg of rice for your Iftari! 🍚",
+                "Found your lost HSC admit card and registration card! 📝",
+                "You are such a bitch! 😏",
+                "Enjoy your favourite tea from Anondo Road! ☕",
+                "Adamjee’s favourite velpuri is all yours! 🥳"
+            ];
+            const colors = ["#ff4c4c", "#4ca3ff", "#ffeb3b", "#8e44ad", "#2ecc71"];
+            let popped = 0;
+            const container = document.getElementById("balloonContainer");
+            let balloons = [];
+            for (let i = 0; i < 5; i++) {
+                let balloon = document.createElement('div');
+                balloon.style.width = '60px';
+                balloon.style.height = '80px';
+                balloon.style.background = colors[i];
+                balloon.style.borderRadius = '50% 50% 50% 50% / 60% 60% 40% 40%';
+                balloon.style.position = 'absolute';
+                balloon.style.left = Math.random() * 90 + '%';
+                balloon.style.top = 350 + 'px';
+                balloon.style.cursor = 'pointer';
+                balloon.style.transition = 'transform 0.3s ease';
+                container.appendChild(balloon);
+                balloon.onclick = function() {
+                    balloon.remove();
+                    const msgBox = document.getElementById("balloonMsg");
+                    let msgDiv = document.createElement('div');
+                    msgDiv.className = 'message';
+                    msgDiv.style.background = colors[i];
+                    msgDiv.innerHTML = messages[i];
+                    msgBox.appendChild(msgDiv);
+                    popped++;
+                    score += 5;
+                    if (popped === 5) {
+                        msgBox.innerHTML += `<h3>🎉 All Balloons Popped! Total Score: ${score}</h3>
+                <div class="arrowNext" onclick="showStoryStep()">➡ Click Here for Story Box</div>`;
+                    }
+                }
+                balloons.push({
+                    el: balloon,
+                    top: 350,
+                    speed: Math.random() * 1 + 0.5
+                });
+            }
+
+            function animateBalloons() {
+                balloons.forEach(b => {
+                    b.top -= b.speed;
+                    if (b.top < -100) b.top = 400 + Math.random() * 50;
+                    b.el.style.top = b.top + 'px';
+                });
+                requestAnimationFrame(animateBalloons);
+            }
+            animateBalloons();
+        }
+
+        /* ===== Story Step ===== */
+        function showStoryStep() {
+            document.getElementById("stepStory").style.display = "block";
+            document.getElementById("gameBox").innerHTML = '';
+        }
+
+        function startStory() {
+            document.getElementById("stepStory").style.display = "none";
+            const box = document.getElementById("gameBox");
+            const storyMessages = [
+                "Athoy: পানি কম খায় এইজন্য আন্টি একদিন আমাকে কল করে বলেছিল হারামজাদা পানি খাই না ঠিকমতো।",
+                "আনন্দ রোডের ভেলপুরি আর চা আমার আর Athoy এর সবথেকে প্রিয় ছিল।",
+                "Athoy: ম্যাথ করতে অনেক ভয় পাই, যখনই ম্যাথ স্যার কোশ্চেন ব্যাংক সলভ করাতেন ওইদিন Athoy কোনভাবেই আসতো না। সেই দিন সে কোন না কোন কারণে অসুস্থ হয়ে পড়তো।",
+                "রাজশাহী থেকে আসার সময় সিএনজিতে Athoy তার ব্যাগটা রেখে এসেছিল এবং সেই ব্যাগে তার এইচএসসির এডমিট কার্ড ও রেজিস্ট্রেশন কার্ড ছিল যেটা Athoy হারায়ে ফেলেছিল এবং পরে কোনভাবেই পাওয়া যায় নাই।",
+                "এই সব মেমোরি গুলা নিয়ে আজকে আমি এই গেমটি সাজিয়েছি। শুধু সেই গোল্ডেন টাইমস টা কে রিকল করছি।"
+            ];
+            let html = `<h2>📖 Story Box</h2><div class="storyContainer">`;
+            for (let i = 0; i < 5; i++) {
+                html += `<div class="storyBox" id="storyBox${i}">Box ${i+1}</div>`;
+            }
+            html += `</div><div id="storyMsg"></div>
+    <div class="arrowNext" onclick="showFinalStep()">➡ Click Here for Final Surprise</div>`;
+            box.innerHTML = html;
+            for (let i = 0; i < 5; i++) {
+                document.getElementById(`storyBox${i}`).addEventListener('click', function() {
+                    document.getElementById("storyMsg").innerHTML = `<div class="message" style="background:#16a085">${storyMessages[i]}</div>`;
+                });
+            }
+        }
+
+        /* ===== Final Birthday Step ===== */
+        function showFinalStep() {
+            document.getElementById("stepFinal").style.display = "block";
+            document.getElementById("gameBox").innerHTML = '';
+        }
+
+        function startFinalStep() {
+            document.getElementById("stepFinal").style.display = "none";
+            const box = document.getElementById("gameBox");
+            box.innerHTML = `
+    <div class="birthday-msg">🎉 Happy Birthday Athoy! 🎉</div>
+    <div class="birthday-submsg">Wishing you a super sweet birthday filled with love, laughter, joy, and all our golden memories! 💖🎂</div>
+    <div style="font-size: 180px; margin: 30px auto; animation: pop 0.5s;">🎂</div>`;
+            // Confetti
+            confetti({
+                particleCount: 200,
+                spread: 120,
+                origin: {
+                    y: 0.6
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
