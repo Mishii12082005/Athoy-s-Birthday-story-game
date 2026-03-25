@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <title>Birthday Game 🎉</title>
     <style>
+        /* ===== Global Body ===== */
+        
         body {
-            font-family: 'Comic Sans MS', cursive;
+            font-family: Arial, Helvetica, sans-serif;
             background: linear-gradient(135deg, #ffe6f2, #ffcce6, #ffb3d9);
             background-size: 400% 400%;
             animation: bgAnimation 20s ease infinite;
@@ -15,9 +17,25 @@
             transition: background 1s;
         }
         
+        h1,
+        h2,
+        h3,
+        p,
+        input,
+        button,
+        .step,
+        .message,
+        .birthday-msg,
+        .birthday-submsg,
+        .arrowNext,
+        .storyBox {
+            font-family: inherit;
+        }
+        
         h1 {
             color: #333;
         }
+        /* ===== Steps ===== */
         
         .step {
             padding: 15px;
@@ -54,6 +72,7 @@
             border-radius: 15px;
             min-height: 300px;
         }
+        /* ===== Messages ===== */
         
         .message {
             font-size: 22px;
@@ -72,7 +91,7 @@
                 transform: scale(1);
             }
         }
-        /* Glass and switch */
+        /* ===== Glass and Switch ===== */
         
         #glassContainer {
             position: relative;
@@ -111,6 +130,7 @@
             color: white;
             font-weight: bold;
         }
+        /* ===== Arrow Next ===== */
         
         .arrowNext {
             margin-top: 20px;
@@ -123,7 +143,7 @@
             color: white;
             font-weight: bold;
         }
-        /* Story Boxes */
+        /* ===== Story Boxes ===== */
         
         .storyContainer {
             display: flex;
@@ -150,11 +170,9 @@
         .storyBox:hover {
             transform: scale(1.1);
         }
-        /* Final birthday cake */
+        /* ===== Final Birthday Cake ===== */
         
-        #finalStepBox {
-            margin-top: 20px;
-        }
+        #finalStepBox {}
         
         .cake-container {
             position: relative;
